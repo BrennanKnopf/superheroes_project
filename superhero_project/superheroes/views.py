@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.template import context
 from django.urls import reverse
 from .models import Superhero
 
@@ -48,3 +49,12 @@ def edit(request, hero_id):
         }
 
         return render(request, 'superheroes/edit.html', context)
+
+def delete(request, hero_id):
+    hero = Superhero.objects.get(pk=hero_id)
+    hero.delete()
+    return HttpResponseRedirect(reverse('superheroes:index'))
+    
+
+       
+    
