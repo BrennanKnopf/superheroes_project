@@ -31,3 +31,20 @@ def create(request):
         return HttpResponseRedirect(reverse('superheroes:index'))
     else:
         return render(request, 'superheroes/create.html')
+
+def edit(request, hero_id):
+    edited_hero = Superhero.objects.get(pk=hero_id)
+    if request.method == "POST":
+        edited_hero.name = request.POST.get('name')
+        edited_hero.alter_ego = request.POST.get('alter_ego')
+        edited_hero.primary_ability = request.POST.get('primary_ability')
+        edited_hero.secondary_ability = request.POST.get('secondary_ability')
+        edited_hero.catchphrase = request.POST.get('catchphrase')
+        edited_hero.save()
+        return HttpResponseRedirect(reverse('superheroes:index'))
+    else:
+        context = {
+        'edited_hero': edited_hero
+        }
+
+        return render(request, 'superheroes/edit.html', context)
